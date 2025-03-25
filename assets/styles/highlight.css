@@ -1,0 +1,64 @@
+.highlight > h1 {
+    margin-bottom: 0.5rem;
+}
+
+.highlight > h2 {
+    margin-top: 0;
+    margin-bottom: 2rem;
+    font-style: italic;
+    opacity: 0.75;
+}
+
+.highlight > section.experience ul,
+.highlight > section.education ul,
+.highlight > section.project ul {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.highlight > section.experience li,
+.highlight > section.education li,
+.highlight > section.project li {
+    font-weight: bold;
+    position: relative;
+}
+
+.highlight > section.experience .date,
+.highlight > section.education .date,
+.highlight > section.project .date {
+    font-weight: normal;
+    opacity: 0.5;
+    position: absolute;
+    right: 0;
+}
+
+.highlight > section.experience p,
+.highlight > section.education p,
+.highlight > section.project p {
+    font-weight: normal;
+    margin-top: 0.25rem;
+    margin-bottom: 0.25rem;
+}
+
+.highlight > section.experience div:has(img),
+.highlight > section.education div:has(img),
+.highlight > section.project div:has(img) {
+    display: flex;
+    align-items: center;
+    gap: 0.25rem;
+}
+
+.highlight > section.experience img,
+.highlight > section.education img,
+.highlight > section.project img {
+    opacity: 0.5;
+    width: 1rem;
+    height: 1rem;
+}
+
+.highlight > section.experience div > a,
+.highlight > section.education div > a,
+.highlight > section.project div > a {
+    text-decoration: underline;
+}

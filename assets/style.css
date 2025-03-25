@@ -1,0 +1,77 @@
+@import url(fonts/open_sans.css);
+
+@import url(styles/profile.css);
+@import url(styles/highlight.css);
+
+:root {
+    --primary-color: #7895cb;
+
+    --primary-background-color: #ffffff;
+    --secondary-background-color: #dddddd;
+}
+
+html {
+    background-color: gray;
+    font-family: "Open Sans", sans-serif;
+}
+
+body {
+    margin: 0;
+    font-size: 14px;
+}
+
+a {
+    text-decoration: none;
+    color: inherit;
+    font-weight: 600;
+}
+
+ul {
+    list-style-type: none;
+
+    margin-top: 0;
+    margin-bottom: 0;
+
+    padding-left: 0;
+}
+
+main {
+    /* A4 format */
+    width: 210mm;
+    height: 297mm;
+
+    background-color: var(--primary-background-color);
+
+    margin-top: 2rem;
+    margin-bottom: 2rem;
+
+    /* Center horizontally */
+    margin-left: auto;
+    margin-right: auto;
+
+    display: grid;
+    grid-template-columns: 1fr 2fr;
+}
+
+main > * {
+    padding: 1rem;
+}
+
+section > h2 {
+    position: relative;
+    left: -1rem;
+
+    margin-right: 0.75rem;
+    margin-top: 1rem;
+    margin-bottom: 0.75rem;
+
+    padding-left: 1rem;
+    padding-top: 0.2rem;
+    padding-bottom: 0.2rem;
+
+    background-color: var(--primary-color);
+    color: white;
+
+    font-size: 1em;
+    text-transform: uppercase;
+}
