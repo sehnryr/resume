@@ -11,8 +11,31 @@
 }
 
 html {
-    background-color: gray;
     font-family: "Open Sans", sans-serif;
+}
+
+html::before {
+    content: "";
+    position: fixed;
+    top: -50vmax;
+    left: -50vmax;
+    width: 200vmax;
+    height: 200vmax;
+    z-index: -1;
+
+    background-image: url(background.svg);
+    background-size: 1.5%;
+
+    transform: rotate(45deg);
+    filter: brightness(0) saturate(100%) invert(86%) sepia(73%) saturate(15%) hue-rotate(179deg)
+        brightness(105%) contrast(73%);
+}
+
+@media (prefers-color-scheme: dark) {
+    html::before {
+        filter: brightness(0) saturate(100%) invert(21%) sepia(6%) saturate(0%) hue-rotate(159deg)
+            brightness(90%) contrast(87%);
+    }
 }
 
 body {
