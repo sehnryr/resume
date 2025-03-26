@@ -48,7 +48,18 @@
     <style>
       :root {
         --primary-color: #7895cb;
-        --secondary-background-color: #dddddd;
+
+        --background-color: #ffffff;
+        --background-line-color: color-mix(in srgb, #dddddd, transparent 60%);
+        --background-line-width: 1px;
+      }
+
+      @media (prefers-color-scheme: dark) {
+        :root {
+          --background-color: #1b1b1b;
+          --background-line-color: color-mix(in srgb, white, transparent 95%);
+          --background-line-width: 1px;
+        }
       }
 
       @page {
@@ -58,34 +69,26 @@
       html {
         font-family: "Open Sans", sans-serif;
         print-color-adjust: exact;
-      }
 
-      html::before {
-        content: "";
-        position: fixed;
-        top: -50vmax;
-        left: -50vmax;
-        width: 200vmax;
-        height: 200vmax;
-        z-index: -1;
+        background-color: var(--background-color);
 
-        background-image: url(assets/background.svg);
-        background-size: 1.5%;
+        --grad: conic-gradient(
+          at var(--background-line-width) calc(100% - var(--background-line-width)),
+          transparent 90deg,
+          var(--background-line-color) 0%
+        );
 
-        transform: rotate(45deg);
-        filter: brightness(0) saturate(100%) invert(86%) sepia(73%) saturate(15%) hue-rotate(179deg)
-          brightness(105%) contrast(73%);
-      }
-
-      @media (prefers-color-scheme: dark) {
-        html::before {
-          filter: brightness(0) saturate(100%) invert(21%) sepia(6%) saturate(0%) hue-rotate(159deg)
-            brightness(90%) contrast(87%);
-        }
+        background-image: var(--grad), var(--grad);
+        background-position:
+          0 0,
+          0 0;
+        background-size:
+          30px 30px,
+          10px 10px;
       }
 
       @media print {
-        html::before {
+        s html::before {
           display: none;
         }
       }
@@ -159,7 +162,7 @@
     </style>
     <style>
       .profile {
-        background-color: var(--secondary-background-color);
+        background-color: #dddddd;
       }
 
       .profile > img {
@@ -172,7 +175,7 @@
 
         border-style: solid;
         border-width: 0.5rem;
-        border-color: color-mix(in srgb, var(--secondary-background-color), transparent 25%);
+        border-color: color-mix(in srgb, #dddddd, transparent 25%);
 
         outline-style: solid;
         outline-width: 0.175rem;
