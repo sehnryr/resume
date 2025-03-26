@@ -1,7 +1,318 @@
 <!doctype html>
 <html>
   <head>
-    <link rel="stylesheet" href="assets/style.css" />
+    <style>
+      @font-face {
+        font-family: "Open Sans";
+        font-style: normal;
+        font-weight: 400;
+        font-display: swap;
+        src: url("assets/fonts/OpenSans-Regular.ttf") format("truetype");
+      }
+      @font-face {
+        font-family: "Open Sans";
+        font-style: normal;
+        font-weight: 500;
+        font-display: swap;
+        src: url("assets/fonts/OpenSans-Medium.ttf") format("truetype");
+      }
+      @font-face {
+        font-family: "Open Sans";
+        font-style: normal;
+        font-weight: 600;
+        font-display: swap;
+        src: url("assets/fonts/OpenSans-SemiBold.ttf") format("truetype");
+      }
+      @font-face {
+        font-family: "Open Sans";
+        font-style: normal;
+        font-weight: 700;
+        font-display: swap;
+        src: url("assets/fonts/OpenSans-Bold.ttf") format("truetype");
+      }
+      @font-face {
+        font-family: "Open Sans";
+        font-style: italic;
+        font-weight: 400;
+        font-display: swap;
+        src: url("assets/fonts/OpenSans-Italic.ttf") format("truetype");
+      }
+      @font-face {
+        font-family: "Open Sans";
+        font-style: italic;
+        font-weight: 700;
+        font-display: swap;
+        src: url("assets/fonts/OpenSans-BoldItalic.ttf") format("truetype");
+      }
+    </style>
+    <style>
+      :root {
+        --primary-color: #7895cb;
+        --secondary-background-color: #dddddd;
+      }
+
+      @page {
+        margin: 0;
+      }
+
+      html {
+        font-family: "Open Sans", sans-serif;
+        print-color-adjust: exact;
+      }
+
+      html::before {
+        content: "";
+        position: fixed;
+        top: -50vmax;
+        left: -50vmax;
+        width: 200vmax;
+        height: 200vmax;
+        z-index: -1;
+
+        background-image: url(assets/background.svg);
+        background-size: 1.5%;
+
+        transform: rotate(45deg);
+        filter: brightness(0) saturate(100%) invert(86%) sepia(73%) saturate(15%) hue-rotate(179deg)
+          brightness(105%) contrast(73%);
+      }
+
+      @media (prefers-color-scheme: dark) {
+        html::before {
+          filter: brightness(0) saturate(100%) invert(21%) sepia(6%) saturate(0%) hue-rotate(159deg)
+            brightness(90%) contrast(87%);
+        }
+      }
+
+      @media print {
+        html::before {
+          display: none;
+        }
+      }
+
+      body {
+        margin: 0;
+        font-size: 14px;
+      }
+
+      a {
+        text-decoration: none;
+        color: inherit;
+        font-weight: 600;
+      }
+
+      ul {
+        list-style-type: none;
+
+        margin-top: 0;
+        margin-bottom: 0;
+
+        padding-left: 0;
+      }
+
+      main {
+        /* A4 format */
+        width: 210mm;
+        height: 297mm;
+
+        background-color: white;
+
+        margin-top: 2rem;
+        margin-bottom: 2rem;
+
+        /* Center horizontally */
+        margin-left: auto;
+        margin-right: auto;
+
+        display: grid;
+        grid-template-columns: 1fr 2fr;
+      }
+
+      @media print {
+        main {
+          margin: 0;
+        }
+      }
+
+      main > * {
+        padding: 1rem;
+      }
+
+      section > h2 {
+        position: relative;
+        left: -1rem;
+
+        margin-right: 0.75rem;
+        margin-top: 1rem;
+        margin-bottom: 0.75rem;
+
+        padding-left: 1rem;
+        padding-top: 0.2rem;
+        padding-bottom: 0.2rem;
+
+        background-color: var(--primary-color);
+        color: white;
+
+        font-size: 1em;
+        text-transform: uppercase;
+      }
+    </style>
+    <style>
+      .profile {
+        background-color: var(--secondary-background-color);
+      }
+
+      .profile > img {
+        width: 9rem;
+        height: 9rem;
+
+        object-fit: cover;
+
+        border-radius: 50%;
+
+        border-style: solid;
+        border-width: 0.5rem;
+        border-color: color-mix(in srgb, var(--secondary-background-color), transparent 25%);
+
+        outline-style: solid;
+        outline-width: 0.175rem;
+        outline-color: var(--primary-color);
+
+        background-color: white;
+
+        display: block;
+        margin-left: auto;
+        margin-right: auto;
+      }
+
+      .profile > h1 {
+        margin-top: 0.75rem;
+        margin-bottom: 0.25rem;
+
+        text-align: center;
+      }
+
+      .profile > p {
+        margin: 0;
+        opacity: 0.75;
+      }
+
+      .profile > section.language ul,
+      .profile > section.soft-skill ul,
+      .profile > section.hard-skill ul,
+      .profile > section.interest ul {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 1rem;
+      }
+
+      .profile > section.language li,
+      .profile > section.soft-skill li,
+      .profile > section.hard-skill li,
+      .profile > section.interest li {
+        font-weight: 600;
+      }
+
+      .profile > section.language li > span,
+      .profile > section.soft-skill li > span,
+      .profile > section.hard-skill li > span,
+      .profile > section.interest li > span {
+        font-weight: normal;
+        opacity: 0.75;
+
+        margin-top: 0.25rem;
+
+        display: block;
+        clear: both;
+      }
+
+      .profile > section.contact {
+        font-size: 0.75rem;
+      }
+
+      .profile > section.contact ul {
+        display: flex;
+        flex-direction: column;
+        gap: 0.6rem;
+      }
+
+      .profile > section.contact li {
+        display: flex;
+        gap: 0.5rem;
+        align-items: center;
+      }
+
+      .profile > section.contact img {
+        width: 1rem;
+        height: 1rem;
+      }
+    </style>
+    <style>
+      .highlight > h1 {
+        margin-bottom: 0.5rem;
+      }
+
+      .highlight > h2 {
+        margin-top: 0;
+        margin-bottom: 2rem;
+        font-style: italic;
+        opacity: 0.75;
+      }
+
+      .highlight > section.experience ul,
+      .highlight > section.education ul,
+      .highlight > section.project ul {
+        display: flex;
+        flex-direction: column;
+        gap: 1rem;
+      }
+
+      .highlight > section.experience li,
+      .highlight > section.education li,
+      .highlight > section.project li {
+        font-weight: bold;
+        position: relative;
+      }
+
+      .highlight > section.experience .date,
+      .highlight > section.education .date,
+      .highlight > section.project .date {
+        font-weight: normal;
+        opacity: 0.5;
+        position: absolute;
+        right: 0;
+      }
+
+      .highlight > section.experience p,
+      .highlight > section.education p,
+      .highlight > section.project p {
+        font-weight: normal;
+        margin-top: 0.25rem;
+        margin-bottom: 0.25rem;
+      }
+
+      .highlight > section.experience div:has(img),
+      .highlight > section.education div:has(img),
+      .highlight > section.project div:has(img) {
+        display: flex;
+        align-items: center;
+        gap: 0.25rem;
+      }
+
+      .highlight > section.experience img,
+      .highlight > section.education img,
+      .highlight > section.project img {
+        opacity: 0.5;
+        width: 1rem;
+        height: 1rem;
+      }
+
+      .highlight > section.experience div > a,
+      .highlight > section.education div > a,
+      .highlight > section.project div > a {
+        text-decoration: underline;
+      }
+    </style>
   </head>
   <body>
     <main>
