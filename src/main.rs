@@ -2,8 +2,12 @@ mod common;
 mod profile;
 mod resume;
 
-use std::fs::File;
+use std::fs::{
+    File,
+    read_to_string,
+};
 use std::io::Write;
+use std::path::PathBuf;
 
 use dioxus::prelude::*;
 use dioxus::ssr::render_element;
@@ -15,13 +19,20 @@ use minify_html::{
 use crate::profile::profile;
 use crate::resume::resume;
 
-const OPEN_SANS_FONT_CSS: &str = include_str!("../assets/css/open-sans.css");
-const MAIN_CSS: &str = include_str!("../assets/css/main.css");
-const PROFILE_CSS: &str = include_str!("../assets/css/profile.css");
-const RESUME_CSS: &str = include_str!("../assets/css/resume.css");
-
 fn main() {
-    let content = render_element(rsx! {
+    let assets_directory = PathBuf::from("assets");
+    let css_directory = assets_directory.join("css");
+
+    let css_files = css_directory
+        .read_dir()
+        .expect("failed to read css directory")
+        .map(|dir_entry| dir_entry.expect("failed to read css file").path());
+
+    let css_content = css_files
+        .map(|path| read_to_string(path).expect("failed to read css file"))
+        .collect::<String>();
+
+    let html_content = render_element(rsx! {
         main {
             {profile()}
             {resume()}
@@ -33,13 +44,10 @@ fn main() {
         <html>
             <head>
                 <title>Youn Mélois</title>
-                <style>{OPEN_SANS_FONT_CSS}</style>
-                <style>{MAIN_CSS}</style>
-                <style>{PROFILE_CSS}</style>
-                <style>{RESUME_CSS}</style>
+                <style>{css_content}</style>
             </head>
             <body>
-                {content}
+                {html_content}
             </body>
         </html>",
     );
