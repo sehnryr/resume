@@ -20,7 +20,9 @@
 
 html {
     font-family: "Open Sans", sans-serif;
+
     print-color-adjust: exact;
+    -webkit-print-color-adjust: exact;
 
     background-color: var(--background-color);
 
