@@ -21,11 +21,15 @@ use crate::element::*;
 use crate::profile::profile;
 use crate::resume::resume;
 
+const MAIN_CSS: &str = include_str!("../assets/css/main.css");
+const OPEN_SANS_CSS: &str = include_str!("../assets/css/open-sans.css");
+const PROFILE_CSS: &str = include_str!("../assets/css/profile.css");
+const RESUME_CSS: &str = include_str!("../assets/css/resume.css");
+
 #[derive(Deserialize)]
 #[serde(rename_all = "kebab-case")]
 struct Config {
     name: String,
-    picture: String,
     address: String,
     title: String,
     subtitle: String,
@@ -108,44 +112,59 @@ struct Project {
 }
 
 fn main() {
-    let config_path = PathBuf::from("resume.toml");
-    let config: Config =
-        toml::from_str(&read_to_string(config_path).expect("failed to read config file"))
-            .expect("failed to parse config file");
+    let default_lang = "fr";
+    let resume_directory = PathBuf::from("resume");
 
-    let assets_directory = PathBuf::from("assets");
-    let css_directory = assets_directory.join("css");
-
-    let css_files = css_directory
+    let resume_files = resume_directory
         .read_dir()
-        .expect("failed to read css directory")
-        .map(|dir_entry| dir_entry.expect("failed to read css file").path());
+        .expect("failed to read resume directory")
+        .map(|dir_entry| dir_entry.expect("failed to read resume file").path());
 
-    let css_content = css_files
-        .map(|path| read_to_string(path).expect("failed to read css file"))
-        .collect::<String>();
+    for path in resume_files {
+        let lang = path
+            .file_name()
+            .and_then(|s| s.to_str())
+            .and_then(|s| s.split_once('.'))
+            .map(|(lang, _)| lang)
+            .unwrap_or_default();
 
-    let html = format!(
-        "<!doctype html>{}",
-        html!(
-            head!(title!("Youn Mélois"), style!(css_content)),
-            body!(main!(profile(&config), resume(&config),),),
-        )
-        .to_string()
-    );
+        let config: Config =
+            toml::from_str(&read_to_string(&path).expect("failed to read config file"))
+                .expect("failed to parse config file");
 
-    let mut cfg = Cfg::default();
+        let html = format!(
+            "<!doctype html>{}",
+            html!(
+                head!(
+                    title!("Youn Mélois"),
+                    style!(MAIN_CSS, OPEN_SANS_CSS, PROFILE_CSS, RESUME_CSS)
+                ),
+                body!(main!(profile(&config), resume(&config),),),
+            )
+            .to_string()
+        );
 
-    cfg.allow_optimal_entities = true;
-    cfg.allow_removing_spaces_between_attributes = true;
-    cfg.minify_doctype = true;
-    cfg.minify_css = true;
-    cfg.remove_bangs = true;
-    cfg.remove_processing_instructions = true;
+        let mut cfg = Cfg::default();
 
-    let minified = minify(html.as_bytes(), &cfg);
+        cfg.allow_optimal_entities = true;
+        cfg.allow_removing_spaces_between_attributes = true;
+        cfg.minify_doctype = true;
+        cfg.minify_css = true;
+        cfg.remove_bangs = true;
+        cfg.remove_processing_instructions = true;
 
-    let mut file = File::create("index.html").expect("failed to create index.html");
-    file.write_all(&minified)
-        .expect("failed to write to index.html");
+        let minified = minify(html.as_bytes(), &cfg);
+
+        std::fs::create_dir_all(lang).expect("failed to create language directory");
+
+        let mut file = File::create(format!("{}/index.html", lang))
+            .expect("failed to create {lang}/index.html");
+        file.write_all(&minified)
+            .expect("failed to write to {lang}/index.html");
+
+        if lang == default_lang {
+            std::fs::copy(format!("{}/index.html", lang), "index.html")
+                .expect("failed to copy {lang}/index.html to index.html");
+        }
+    }
 }

@@ -2,7 +2,6 @@ name = "Youn Mélois"
 address = "Nantes, France"
 title = "Ingénieur Logiciel"
 subtitle = "Programmation Temps Réel & Performances"
-picture = "assets/images/profile.webp"
 
 soft-skills = [
     { name = "Vif d'esprit" },

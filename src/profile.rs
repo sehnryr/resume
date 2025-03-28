@@ -22,7 +22,7 @@ const LINKEDIN_SVG: &str = include_str!("../assets/icons/linkedin.svg");
 pub fn profile(config: &Config) -> Element {
     div!(
         @class = "profile",
-        img!(@src = &config.picture),
+        img!(@src = "/assets/images/profile.webp"),
         h1!(&config.name),
         contact(&config.address, &config.contact),
         language(&config.languages),
