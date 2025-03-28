@@ -11,7 +11,7 @@ pub enum LinkType {
 pub fn link<S>(
     r#type: LinkType,
     value: S,
-) -> String
+) -> Element
 where
     S: AsRef<str>,
 {

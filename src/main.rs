@@ -1,3 +1,4 @@
+#[macro_use]
 mod element;
 mod link;
 mod profile;
@@ -38,6 +39,7 @@ fn main() {
             head!(title!("Youn Mélois"), style!(css_content)),
             body!(main!(profile(), resume())),
         )
+        .to_string()
     );
 
     let mut cfg = Cfg::default();

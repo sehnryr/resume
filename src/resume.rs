@@ -6,7 +6,7 @@ use crate::link::{
 
 const LINK_SVG: &str = include_str!("../assets/icons/link-2.svg");
 
-pub fn resume() -> String {
+pub fn resume() -> Element {
     div!(
         @class = "resume",
         h1!("Ingénieur Logiciel"),
@@ -24,7 +24,7 @@ struct Experience<'a> {
     link: Option<&'a str>,
 }
 
-fn experiences() -> String {
+fn experiences() -> Element {
     let experiences = vec![
         Experience {
             company: "Clever Cloud",
@@ -66,7 +66,7 @@ struct Education<'a> {
     link: Option<&'a str>,
 }
 
-fn education() -> String {
+fn education() -> Element {
     let education = vec![
         Education {
             school: "ISEN Yncréa Ouest",
@@ -112,7 +112,7 @@ struct Project<'a> {
     skills: Vec<&'a str>,
 }
 
-fn projects() -> String {
+fn projects() -> Element {
     let projects = vec![
         Project {
             title: "Lecteur de manga",

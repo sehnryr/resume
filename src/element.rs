@@ -1,76 +1,127 @@
-pub trait IntoString {
-    fn into_string(self) -> String;
+pub enum Element {
+    Text(String),
+    Children(Vec<Element>),
+    Tag(String, Vec<(String, String)>, Vec<Element>),
 }
 
-pub trait IntoStringIterator {
-    type Item: IntoString;
-    fn into_string(self) -> String;
-}
-
-pub trait IntoStringOption {
-    fn into_string(self) -> String;
-}
-
-impl<S: ToString> IntoString for S {
-    fn into_string(self) -> String { self.to_string() }
-}
-
-impl<I: Iterator<Item = impl IntoString>> IntoStringIterator for I {
-    type Item = I::Item;
-
-    fn into_string(self) -> String {
-        self.map(IntoString::into_string)
-            .collect::<Vec<String>>()
-            .join("")
+impl Element {
+    pub fn new(
+        name: &str,
+        attributes: Vec<(String, String)>,
+        children: Vec<Element>,
+    ) -> Element {
+        Element::Tag(name.to_string(), attributes, children)
     }
 }
 
-impl<T: IntoString> IntoStringOption for Option<T> {
-    fn into_string(self) -> String { self.map(IntoString::into_string).unwrap_or_default() }
+impl ToString for Element {
+    fn to_string(&self) -> String {
+        match self {
+            Element::Text(text) => text.clone(),
+            Element::Children(elements) => elements
+                .iter()
+                .map(Element::to_string)
+                .collect::<Vec<String>>()
+                .join(""),
+            Element::Tag(name, attributes, children) => {
+                format!(
+                    "<{}{}>{}</{}>",
+                    name,
+                    attributes
+                        .iter()
+                        .map(|(k, v)| format!(" {}=\"{}\"", k, v))
+                        .collect::<Vec<String>>()
+                        .join(""),
+                    children
+                        .iter()
+                        .map(Element::to_string)
+                        .collect::<Vec<String>>()
+                        .join(""),
+                    name
+                )
+            }
+        }
+    }
+}
+
+pub trait ToElement {
+    fn to_element(self) -> Element;
+}
+
+impl<S: ToString> ToElement for S {
+    fn to_element(self) -> Element { Element::Text(self.to_string()) }
+}
+
+pub trait ToElementArray {
+    fn to_element(self) -> Element;
+}
+
+impl<I: Iterator<Item = impl ToElement>> ToElementArray for I {
+    fn to_element(self) -> Element { Element::Children(self.map(ToElement::to_element).collect()) }
+}
+
+pub trait ToElementOption {
+    fn to_element(self) -> Element;
+}
+
+impl<T: ToElement> ToElementOption for Option<T> {
+    fn to_element(self) -> Element { ToElementArray::to_element(self.into_iter()) }
+}
+
+macro_rules! element {
+    ($tag:ident) => {
+        crate::element::Element::new(
+            stringify!($tag),
+            vec![],
+            vec![],
+        )
+    };
+    ($tag:ident $(,@ $key:pat = $value:expr)+ $(,)?) => {
+        crate::element::Element::new(
+            stringify!($tag),
+            vec![$((stringify!($key).to_string(), $value.to_string())),+],
+            vec![],
+        )
+    };
+    ($tag:ident $(,$children:expr)+ $(,)?) => {
+        crate::element::Element::new(
+            stringify!($tag),
+            vec![],
+            vec![$($children.to_element()),+],
+        )
+    };
+    ($tag:ident $(,@ $key:pat = $value:expr)+ $(,$children:expr)+ $(,)?) => {
+        crate::element::Element::new(
+            stringify!($tag),
+            vec![$((stringify!($key).to_string(), $value.to_string())),+],
+            vec![$($children.to_element()),+],
+        )
+    };
 }
 
 macro_rules! elements {
-    (($d:tt) $($tag:ident),*) => {
+    (($d:tt) $($tag:ident),+) => {
         $(
             macro_rules! $tag {
-                (@attributes $d(@$key:pat = $value:expr),*) => {
-                    (vec![$d(format!(" {}=\"{}\"", stringify!($key), $value)),*] as Vec<String>).join("")
+                () => {
+                    element!($tag)
                 };
-                (@contents $d($content:expr),*) => {
-                    (vec![$d($content.into_string()),*] as Vec<String>).join("")
+                ($d(@ $key:pat = $value:expr),+ $d(,)?) => {
+                    element!($tag $d(,@ $key = $value)+)
                 };
-                ($d(@$key:pat = $value:expr),* $d(,)?) => {
-                    format!(
-                        "<{}{}></{}>",
-                        stringify!($tag),
-                        $tag!(@attributes $d(@$key = $value),*),
-                        stringify!($tag)
-                    )
+                ($d($children:expr),+ $d(,)?) => {
+                    element!($tag $d(,$children)+)
                 };
-                ($d($content:expr),* $d(,)?) => {
-                    format!(
-                        "<{}>{}</{}>",
-                        stringify!($tag),
-                        $tag!(@contents $d($content),*),
-                        stringify!($tag)
-                    )
-                };
-                ($d(@$key:pat = $value:expr),+ , $d($content:expr),+ $d(,)?) => {
-                    format!(
-                        "<{}{}>{}</{}>",
-                        stringify!($tag),
-                        $tag!(@attributes $d(@$key = $value),*),
-                        $tag!(@contents $d($content),*),
-                        stringify!($tag)
-                    )
+                ($d(@ $key:pat = $value:expr),+ $d(,$children:expr)+ $d(,)?) => {
+                    element!($tag $d(,@ $key = $value)+ $d(,$children)+)
                 };
             }
             pub(crate) use $tag;
-        )*
+        )+
     };
-    ($($tag:ident),*) => {
-        elements!{($) $($tag),*}
-    }
+    ($($tag:ident),+) => {
+        elements!{($) $($tag),+}
+    };
 }
 
 elements!(
@@ -84,22 +135,25 @@ mod tests {
     #[test]
     fn test_element() {
         let v = div!();
-        assert_eq!(v, "<div></div>");
+        assert_eq!(v.to_string(), "<div></div>");
 
         let v = div!(@id = "");
-        assert_eq!(v, "<div id=\"\"></div>");
+        assert_eq!(v.to_string(), "<div id=\"\"></div>");
 
         let v = div!(@id = "test");
-        assert_eq!(v, "<div id=\"test\"></div>");
+        assert_eq!(v.to_string(), "<div id=\"test\"></div>");
 
         let v = div!(@id = "test", @class = "container");
-        assert_eq!(v, "<div id=\"test\" class=\"container\"></div>");
+        assert_eq!(v.to_string(), "<div id=\"test\" class=\"container\"></div>");
 
         let v = div!("content");
-        assert_eq!(v, "<div>content</div>");
+        assert_eq!(v.to_string(), "<div>content</div>");
 
         let v = div!(@id = "test", @class = "container", "content");
-        assert_eq!(v, "<div id=\"test\" class=\"container\">content</div>");
+        assert_eq!(
+            v.to_string(),
+            "<div id=\"test\" class=\"container\">content</div>"
+        );
 
         let v = div!(
             @id = "test",
@@ -108,7 +162,7 @@ mod tests {
             p!()
         );
         assert_eq!(
-            v,
+            v.to_string(),
             "<div id=\"test\" class=\"container\">content<p></p></div>"
         );
 
@@ -119,7 +173,7 @@ mod tests {
             p!(@id = "p", "text")
         );
         assert_eq!(
-            v,
+            v.to_string(),
             "<div id=\"test\" class=\"container\">content<p id=\"p\">text</p></div>"
         );
     }

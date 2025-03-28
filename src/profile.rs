@@ -11,7 +11,7 @@ const GLOBE_SVG: &str = include_str!("../assets/icons/globe.svg");
 const BLUESKY_SVG: &str = include_str!("../assets/icons/bluesky.svg");
 const LINKEDIN_SVG: &str = include_str!("../assets/icons/linkedin.svg");
 
-pub fn profile() -> String {
+pub fn profile() -> Element {
     div!(
         @class = "profile",
         img!(@src = "assets/images/profile.webp"),
@@ -24,7 +24,7 @@ pub fn profile() -> String {
     )
 }
 
-fn contact() -> String {
+fn contact() -> Element {
     let address: &str = "Nantes, France";
 
     let email: &str = "youn@melois.dev";
@@ -51,7 +51,7 @@ struct Language<'a> {
     level: &'a str,
 }
 
-fn language() -> String {
+fn language() -> Element {
     let languages = vec![
         Language {
             name: "Français",
@@ -77,7 +77,7 @@ fn language() -> String {
     )
 }
 
-fn soft_skills() -> String {
+fn soft_skills() -> Element {
     let soft_skills = vec!["Vif d'esprit", "Ambitieux", "Prudent", "Ordonné"];
 
     section!(
@@ -96,7 +96,7 @@ struct HardSkill<'a> {
     examples: Vec<&'a str>,
 }
 
-fn hard_skills() -> String {
+fn hard_skills() -> Element {
     let hard_skills = vec![
         HardSkill {
             name: "Rust",
@@ -135,7 +135,7 @@ struct Interest<'a> {
     examples: Vec<&'a str>,
 }
 
-fn interests() -> String {
+fn interests() -> Element {
     let interests = vec![
         Interest {
             name: "Informatique",
