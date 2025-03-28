@@ -1,4 +1,5 @@
-mod common;
+mod element;
+mod link;
 mod profile;
 mod resume;
 
@@ -9,13 +10,12 @@ use std::fs::{
 use std::io::Write;
 use std::path::PathBuf;
 
-use dioxus::prelude::*;
-use dioxus::ssr::render_element;
 use minify_html::{
     Cfg,
     minify,
 };
 
+use crate::element::*;
 use crate::profile::profile;
 use crate::resume::resume;
 
@@ -32,24 +32,12 @@ fn main() {
         .map(|path| read_to_string(path).expect("failed to read css file"))
         .collect::<String>();
 
-    let html_content = render_element(rsx! {
-        main {
-            {profile()}
-            {resume()}
-        }
-    });
-
     let html = format!(
-        "<!doctype html>
-        <html>
-            <head>
-                <title>Youn Mélois</title>
-                <style>{css_content}</style>
-            </head>
-            <body>
-                {html_content}
-            </body>
-        </html>",
+        "<!doctype html>{}",
+        html!(
+            head!(title!("Youn Mélois"), style!(css_content)),
+            body!(main!(profile(), resume())),
+        )
     );
 
     let mut cfg = Cfg::default();

@@ -5,10 +5,4 @@ edition = "2024"
 publish = false
 
 [dependencies]
-dioxus = { version = "0.6.3", default-features = false, features = [
-    "html",
-    "macro",
-    "signals",
-    "ssr",
-] }
 minify-html = "0.16.4"

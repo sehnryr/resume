@@ -1,4 +1,4 @@
-use dioxus::prelude::*;
+use crate::element::*;
 
 pub enum LinkType {
     Email,
@@ -11,7 +11,7 @@ pub enum LinkType {
 pub fn link<S>(
     r#type: LinkType,
     value: S,
-) -> Element
+) -> String
 where
     S: AsRef<str>,
 {
@@ -31,7 +31,10 @@ where
         ),
     };
 
-    rsx! {
-        a { href, target: "_blank", rel: "noopener noreferrer", "{text}" }
-    }
+    a!(
+        @href = href,
+        @target = "_blank",
+        @rel = "noopener noreferrer",
+        text
+    )
 }

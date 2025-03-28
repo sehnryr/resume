@@ -1,6 +1,5 @@
-use dioxus::prelude::*;
-
-use crate::common::{
+use crate::element::*;
+use crate::link::{
     LinkType,
     link,
 };
@@ -12,21 +11,20 @@ const GLOBE_SVG: &str = include_str!("../assets/icons/globe.svg");
 const BLUESKY_SVG: &str = include_str!("../assets/icons/bluesky.svg");
 const LINKEDIN_SVG: &str = include_str!("../assets/icons/linkedin.svg");
 
-pub fn profile() -> Element {
-    rsx! {
-        div { class: "profile",
-            img { src: "assets/images/profile.webp" }
-            h1 { "Youn Mélois" }
-            {contact()}
-            {language()}
-            {soft_skills()}
-            {hard_skills()}
-            {interests()}
-        }
-    }
+pub fn profile() -> String {
+    div!(
+        @class = "profile",
+        img!(@src = "assets/images/profile.webp"),
+        h1!("Youn Mélois"),
+        contact(),
+        language(),
+        soft_skills(),
+        hard_skills(),
+        interests(),
+    )
 }
 
-fn contact() -> Element {
+fn contact() -> String {
     let address: &str = "Nantes, France";
 
     let email: &str = "youn@melois.dev";
@@ -35,18 +33,17 @@ fn contact() -> Element {
     let bluesky: &str = "melois.dev";
     let linkedin: &str = "youn-melois";
 
-    rsx! {
-        section { class: "contact",
-            ul {
-                li { dangerous_inner_html: MAP_PIN_SVG, {address} }
-                li { dangerous_inner_html: MAIL_SVG, {link(LinkType::Email, email)} }
-                li { dangerous_inner_html: PHONE_SVG, {link(LinkType::Phone, phone)} }
-                li { dangerous_inner_html: GLOBE_SVG, {link(LinkType::Website, website)} }
-                li { dangerous_inner_html: BLUESKY_SVG, {link(LinkType::Bluesky, bluesky)} }
-                li { dangerous_inner_html: LINKEDIN_SVG, {link(LinkType::Linkedin, linkedin)} }
-            }
-        }
-    }
+    section!(
+        @class = "contact",
+        ul!(
+            li!(MAP_PIN_SVG, address),
+            li!(MAIL_SVG, link(LinkType::Email, email)),
+            li!(PHONE_SVG, link(LinkType::Phone, phone)),
+            li!(GLOBE_SVG, link(LinkType::Website, website)),
+            li!(BLUESKY_SVG, link(LinkType::Bluesky, bluesky)),
+            li!(LINKEDIN_SVG, link(LinkType::Linkedin, linkedin)),
+        )
+    )
 }
 
 struct Language<'a> {
@@ -54,7 +51,7 @@ struct Language<'a> {
     level: &'a str,
 }
 
-fn language() -> Element {
+fn language() -> String {
     let languages = vec![
         Language {
             name: "Français",
@@ -66,34 +63,32 @@ fn language() -> Element {
         },
     ];
 
-    rsx! {
-        section { class: "language",
-            h2 { "Langues" }
-            ul {
-                for language in &languages {
-                    li {
-                        {language.name}
-                        span { {language.level} }
-                    }
-                }
-            }
-        }
-    }
+    section!(
+        @class = "language",
+        h2!("Langues"),
+        ul!(
+            languages.iter().map(|language| {
+                li!(
+                    language.name,
+                    span!(language.level)
+                )
+            })
+        )
+    )
 }
 
-fn soft_skills() -> Element {
+fn soft_skills() -> String {
     let soft_skills = vec!["Vif d'esprit", "Ambitieux", "Prudent", "Ordonné"];
 
-    rsx! {
-        section { class: "soft-skill",
-            h2 { "Compétences Humaines" }
-            ul {
-                for skill in &soft_skills {
-                    li { {skill} }
-                }
-            }
-        }
-    }
+    section!(
+        @class = "soft-skill",
+        h2!("Compétences Humaines"),
+        ul!(
+            soft_skills.iter().map(|skill| {
+                li!(skill)
+            })
+        )
+    )
 }
 
 struct HardSkill<'a> {
@@ -101,7 +96,7 @@ struct HardSkill<'a> {
     examples: Vec<&'a str>,
 }
 
-fn hard_skills() -> Element {
+fn hard_skills() -> String {
     let hard_skills = vec![
         HardSkill {
             name: "Rust",
@@ -121,19 +116,18 @@ fn hard_skills() -> Element {
         },
     ];
 
-    rsx! {
-        section { class: "hard-skill",
-            h2 { "Compétences" }
-            ul {
-                for skill in &hard_skills {
-                    li {
-                        {skill.name}
-                        span { {skill.examples.join(", ")} }
-                    }
-                }
-            }
-        }
-    }
+    section!(
+        @class = "hard-skill",
+        h2!("Compétences"),
+        ul!(
+            hard_skills.iter().map(|skill| {
+                li!(
+                    skill.name,
+                    span!(skill.examples.join(", "))
+                )
+            })
+        )
+    )
 }
 
 struct Interest<'a> {
@@ -141,7 +135,7 @@ struct Interest<'a> {
     examples: Vec<&'a str>,
 }
 
-fn interests() -> Element {
+fn interests() -> String {
     let interests = vec![
         Interest {
             name: "Informatique",
@@ -161,17 +155,16 @@ fn interests() -> Element {
         },
     ];
 
-    rsx! {
-        section { class: "interest",
-            h2 { "Centres d'intérêt" }
-            ul {
-                for interest in &interests {
-                    li {
-                        {interest.name}
-                        span { {interest.examples.join(", ")} }
-                    }
-                }
-            }
-        }
-    }
+    section!(
+        @class = "interest",
+        h2!("Centres d'intérêt"),
+        ul!(
+            interests.iter().map(|interest| {
+                li!(
+                    interest.name,
+                    span!(interest.examples.join(", "))
+                )
+            })
+        )
+    )
 }

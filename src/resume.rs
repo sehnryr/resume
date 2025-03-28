@@ -1,22 +1,20 @@
-use dioxus::prelude::*;
-
-use crate::common::{
+use crate::element::*;
+use crate::link::{
     LinkType,
     link,
 };
 
 const LINK_SVG: &str = include_str!("../assets/icons/link-2.svg");
 
-pub fn resume() -> Element {
-    rsx! {
-        div { class: "resume",
-            h1 { "Ingénieur Logiciel" }
-            h2 { "Programmation Temps Réel & Performances" }
-            {experiences()}
-            {education()}
-            {projects()}
-        }
-    }
+pub fn resume() -> String {
+    div!(
+        @class = "resume",
+        h1!("Ingénieur Logiciel"),
+        h2!("Programmation Temps Réel & Performances"),
+        experiences(),
+        education(),
+        projects(),
+    )
 }
 
 struct Experience<'a> {
@@ -26,7 +24,7 @@ struct Experience<'a> {
     link: Option<&'a str>,
 }
 
-fn experiences() -> Element {
+fn experiences() -> String {
     let experiences = vec![
         Experience {
             company: "Clever Cloud",
@@ -42,23 +40,22 @@ fn experiences() -> Element {
         },
     ];
 
-    rsx! {
-        section { class: "experience",
-            h2 { "Expériences professionnelles" }
-            ul {
-                for experience in experiences {
-                    li {
-                        {experience.company}
-                        span { class: "date", {experience.time} }
-                        p { {experience.title} }
-                        if let Some(link_) = experience.link {
-                            div { dangerous_inner_html: LINK_SVG, {link(LinkType::Website, link_)} }
-                        }
-                    }
-                }
-            }
-        }
-    }
+    section!(
+        @class = "experience",
+        h2!("Expériences professionnelles"),
+        ul!(
+            experiences.iter().map(|experience| {
+                li!(
+                    experience.company,
+                    span!(@class = "date", experience.time ),
+                    p!(experience.title),
+                    experience.link.map(|link_| {
+                        div!(LINK_SVG, link(LinkType::Website, link_))
+                    })
+                )
+            })
+        )
+    )
 }
 
 struct Education<'a> {
@@ -69,7 +66,7 @@ struct Education<'a> {
     link: Option<&'a str>,
 }
 
-fn education() -> Element {
+fn education() -> String {
     let education = vec![
         Education {
             school: "ISEN Yncréa Ouest",
@@ -87,26 +84,25 @@ fn education() -> Element {
         },
     ];
 
-    rsx! {
-        section { class: "education",
-            h2 { "Formation" }
-            ul {
-                for education in education {
-                    li {
-                        {education.school}
-                        span { class: "date", {education.time} }
-                        p { {education.degree} }
-                        if let Some(description) = education.description {
-                            p { {description} }
-                        }
-                        if let Some(link_) = education.link {
-                            div { dangerous_inner_html: LINK_SVG, {link(LinkType::Website, link_)} }
-                        }
-                    }
-                }
-            }
-        }
-    }
+    section!(
+        @class = "education",
+        h2!("Formation"),
+        ul!(
+            education.iter().map(|education| {
+                li!(
+                    education.school,
+                    span!(@class = "date", education.time),
+                    p!(education.degree),
+                    education.description.map(|description| {
+                        p!(description)
+                    }),
+                    education.link.map(|link_| {
+                        div!(LINK_SVG, link(LinkType::Website, link_))
+                    })
+                )
+            })
+        )
+    )
 }
 
 struct Project<'a> {
@@ -116,7 +112,7 @@ struct Project<'a> {
     skills: Vec<&'a str>,
 }
 
-fn projects() -> Element {
+fn projects() -> String {
     let projects = vec![
         Project {
             title: "Lecteur de manga",
@@ -151,25 +147,22 @@ fn projects() -> Element {
         },
     ];
 
-    rsx! {
-        section { class: "project",
-            h2 { "Projets" }
-            ul {
-                for project in projects {
-                    li {
-                        {project.title}
-                        p { {project.description} }
-                        if let Some(link_) = project.link {
-                            div { dangerous_inner_html: LINK_SVG, {link(LinkType::Website, link_)} }
-                        }
-                        if !project.skills.is_empty() {
-                            p {
-                                i { {project.skills.join(", ")} }
-                            }
-                        }
-                    }
-                }
-            }
-        }
-    }
+    section!(
+        @class = "project",
+        h2!("Projets"),
+        ul!(
+            projects.iter().map(|project| {
+                li!(
+                    project.title,
+                    p!(project.description),
+                    project.link.map(|link_| {
+                        div!(LINK_SVG, link(LinkType::Website, link_))
+                    }),
+                    (!project.skills.is_empty()).then(|| {
+                        p!(i!(project.skills.join(", ")))
+                    })
+                )
+            })
+        )
+    )
 }
