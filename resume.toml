@@ -1,0 +1,105 @@
+name = "Youn Mélois"
+address = "Nantes, France"
+title = "Ingénieur Logiciel"
+subtitle = "Programmation Temps Réel & Performances"
+picture = "assets/images/profile.webp"
+
+soft-skills = [
+    { name = "Vif d'esprit" },
+    { name = "Ambitieux" },
+    { name = "Prudent" },
+    { name = "Ordonné" },
+]
+
+[contact]
+email = "youn@melois.dev"
+phone = "+33 7 83 54 37 48"
+website = "melois.dev"
+bluesky = "melois.dev"
+linkedin = "youn-melois"
+
+[[languages]]
+name = "Français"
+level = "Natif"
+
+[[languages]]
+name = "Anglais (C1)"
+level = "Professionnel"
+
+[[hard-skills]]
+name = "Rust"
+examples = ["CLI", "FFI", "WebAssembly"]
+
+[[hard-skills]]
+name = "Opérationnel"
+examples = ["Ansible", "Docker", "OpenStack"]
+
+[[hard-skills]]
+name = "C/C++"
+examples = ["IHM", "Qt"]
+
+[[hard-skills]]
+name = "Linux"
+examples = ["Arch", "Bash"]
+
+[[interests]]
+name = "Informatique"
+examples = ["Open-source"]
+
+[[interests]]
+name = "Sport"
+examples = ["Vélo"]
+
+[[interests]]
+name = "Lecture"
+examples = ["Comic", "Webtoon"]
+
+[[interests]]
+name = "Jeux vidéo"
+examples = ["Bac à Sable", "Coop"]
+
+[[experiences]]
+company = "Clever Cloud"
+time = "(oct. 2024 - aujourd'hui)"
+title = "Développeur logiciels en Alternance"
+link = "clever-cloud.com"
+
+[[experiences]]
+company = "Clever Cloud"
+time = "(juil. 2024 - sept. 2024)"
+title = "Développeur logiciels en Stage"
+
+[[education]]
+school = "ISEN Yncréa Ouest"
+degree = "Diplôme d'ingénieur, Ingénierie Logicielle"
+time = "(sept. 2020 - oct. 2025)"
+link = "isen-nantes.fr"
+
+[[education]]
+school = "Sveučilište Algebra (Algebra University)"
+degree = "Ingénierie Logicielle"
+time = "(févr. 2024 - juil. 2024)"
+description = "Erasmus d'un semèstre à Zagreb en Croatie."
+link = "algebra.hr"
+
+[[projects]]
+title = "Lecteur de manga"
+description = "Création d'une application multiplateforme (mobile/desktop) permettant de visualiser des mangas/webtoons depuis des sources populaires."
+link = "github.com/midokuapp/midoku"
+skills = ["Rust", "WebAssembly", "Dioxus"]
+
+[[projects]]
+title = "Réécriture de Oodle en Rust"
+description = "Oodle est un algorithme de compression de données utilisé dans de nombreux jeux vidéo. Cette réécriture permet d'utiliser Oodle dans des applications Rust sans avoir à faire du linkage avec la bibliothèque C originale."
+link = "github.com/sehnryr/oodle-rs"
+skills = ["Rust", "FFI", "Bindgen"]
+
+[[projects]]
+title = "Rétro-ingénierie du cache de Warframe"
+description = "Extraction des données compressées binaires du jeu Warframe pour en récupérer les images et musiques. Création d'une application TUI pour explorer et extraire ces données."
+link = "github.com/sehnryr/wfcache-api"
+skills = ["Rust", "C++", "TUI", "ImHex"]
+
+[[projects]]
+title = "Contributions Open-source"
+description = "Création d'Issues et Pull Requests sur des projets open-source: dioxus, rust-bindgen, topgrade, cargo-component"

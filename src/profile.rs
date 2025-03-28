@@ -3,6 +3,14 @@ use crate::link::{
     LinkType,
     link,
 };
+use crate::{
+    Config,
+    Contact,
+    HardSkill,
+    Interest,
+    Language,
+    SoftSkill,
+};
 
 const MAP_PIN_SVG: &str = include_str!("../assets/icons/map-pin.svg");
 const MAIL_SVG: &str = include_str!("../assets/icons/mail.svg");
@@ -11,118 +19,71 @@ const GLOBE_SVG: &str = include_str!("../assets/icons/globe.svg");
 const BLUESKY_SVG: &str = include_str!("../assets/icons/bluesky.svg");
 const LINKEDIN_SVG: &str = include_str!("../assets/icons/linkedin.svg");
 
-pub fn profile() -> Element {
+pub fn profile(config: &Config) -> Element {
     div!(
         @class = "profile",
-        img!(@src = "assets/images/profile.webp"),
-        h1!("Youn Mélois"),
-        contact(),
-        language(),
-        soft_skills(),
-        hard_skills(),
-        interests(),
+        img!(@src = &config.picture),
+        h1!(&config.name),
+        contact(&config.address, &config.contact),
+        language(&config.languages),
+        soft_skills(&config.soft_skills),
+        hard_skills(&config.hard_skills),
+        interests(&config.interests),
     )
 }
 
-fn contact() -> Element {
-    let address: &str = "Nantes, France";
-
-    let email: &str = "youn@melois.dev";
-    let phone: &str = "+33 7 83 54 37 48";
-    let website: &str = "melois.dev";
-    let bluesky: &str = "melois.dev";
-    let linkedin: &str = "youn-melois";
-
+fn contact(
+    address: &str,
+    contact: &Contact,
+) -> Element {
     section!(
         @class = "contact",
         ul!(
-            li!(MAP_PIN_SVG, address),
-            li!(MAIL_SVG, link(LinkType::Email, email)),
-            li!(PHONE_SVG, link(LinkType::Phone, phone)),
-            li!(GLOBE_SVG, link(LinkType::Website, website)),
-            li!(BLUESKY_SVG, link(LinkType::Bluesky, bluesky)),
-            li!(LINKEDIN_SVG, link(LinkType::Linkedin, linkedin)),
+            li!(MAP_PIN_SVG, &address),
+            li!(MAIL_SVG, link(LinkType::Email, &contact.email)),
+            li!(PHONE_SVG, link(LinkType::Phone, &contact.phone)),
+            li!(GLOBE_SVG, link(LinkType::Website, &contact.website)),
+            li!(BLUESKY_SVG, link(LinkType::Bluesky, &contact.bluesky)),
+            li!(LINKEDIN_SVG, link(LinkType::Linkedin, &contact.linkedin)),
         )
     )
 }
 
-struct Language<'a> {
-    name: &'a str,
-    level: &'a str,
-}
-
-fn language() -> Element {
-    let languages = vec![
-        Language {
-            name: "Français",
-            level: "Natif",
-        },
-        Language {
-            name: "Anglais (C1)",
-            level: "Professionnel",
-        },
-    ];
-
+fn language(languages: &[Language]) -> Element {
     section!(
         @class = "language",
         h2!("Langues"),
         ul!(
             languages.iter().map(|language| {
                 li!(
-                    language.name,
-                    span!(language.level)
+                    &language.name,
+                    span!(&language.level)
                 )
             })
         )
     )
 }
 
-fn soft_skills() -> Element {
-    let soft_skills = vec!["Vif d'esprit", "Ambitieux", "Prudent", "Ordonné"];
-
+fn soft_skills(soft_skills: &[SoftSkill]) -> Element {
     section!(
         @class = "soft-skill",
         h2!("Compétences Humaines"),
         ul!(
             soft_skills.iter().map(|skill| {
-                li!(skill)
+                li!(&skill.name)
             })
         )
     )
 }
 
-struct HardSkill<'a> {
-    name: &'a str,
-    examples: Vec<&'a str>,
-}
-
-fn hard_skills() -> Element {
-    let hard_skills = vec![
-        HardSkill {
-            name: "Rust",
-            examples: vec!["CLI", "FFI", "WebAssembly"],
-        },
-        HardSkill {
-            name: "Opérationnel",
-            examples: vec!["Ansible", "Docker", "OpenStack"],
-        },
-        HardSkill {
-            name: "C/C++",
-            examples: vec!["IHM", "Qt"],
-        },
-        HardSkill {
-            name: "Linux",
-            examples: vec!["Arch", "Bash"],
-        },
-    ];
-
+fn hard_skills(hard_skills: &[HardSkill]) -> Element {
     section!(
         @class = "hard-skill",
         h2!("Compétences"),
         ul!(
             hard_skills.iter().map(|skill| {
                 li!(
-                    skill.name,
+                    &skill.name,
                     span!(skill.examples.join(", "))
                 )
             })
@@ -130,38 +91,14 @@ fn hard_skills() -> Element {
     )
 }
 
-struct Interest<'a> {
-    name: &'a str,
-    examples: Vec<&'a str>,
-}
-
-fn interests() -> Element {
-    let interests = vec![
-        Interest {
-            name: "Informatique",
-            examples: vec!["Open-source"],
-        },
-        Interest {
-            name: "Sport",
-            examples: vec!["Vélo"],
-        },
-        Interest {
-            name: "Lecture",
-            examples: vec!["Comic", "Webtoon"],
-        },
-        Interest {
-            name: "Jeux vidéo",
-            examples: vec!["Bac à Sable", "Coop"],
-        },
-    ];
-
+fn interests(interests: &[Interest]) -> Element {
     section!(
         @class = "interest",
         h2!("Centres d'intérêt"),
         ul!(
             interests.iter().map(|interest| {
                 li!(
-                    interest.name,
+                    &interest.name,
                     span!(interest.examples.join(", "))
                 )
             })

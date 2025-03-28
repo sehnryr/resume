@@ -6,3 +6,5 @@ publish = false
 
 [dependencies]
 minify-html = "0.16.4"
+serde = { version = "1.0.219", features = ["derive"] }
+toml = { version = "0.8.20", features = ["preserve_order"] }
