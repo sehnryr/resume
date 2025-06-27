@@ -1,3 +1,6 @@
 .zed/
 /target
 Cargo.lock
+.direnv
+.env
+.envrc.local
