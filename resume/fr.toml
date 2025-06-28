@@ -1,7 +1,7 @@
 name = "Youn Mélois"
 address = "Nantes, France"
-title = "Ingénieur Logiciel"
-subtitle = "Programmation Temps Réel & Performances"
+title = "Ingénieur Logiciel Rust"
+subtitle = "Optimisation bas niveau & Performances"
 
 soft-skills = [
     { name = "Vif d'esprit" },
