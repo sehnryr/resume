@@ -12,21 +12,30 @@ use crate::{
 
 const LINK_SVG: &str = include_str!("../assets/icons/link-2.svg");
 
-pub fn resume(config: &Config) -> Element {
+pub fn resume(
+    config: &Config,
+    lang: &str,
+) -> Element {
     div!(
         @class = "resume",
         h1!(&config.title),
         h2!(&config.subtitle),
-        experiences(&config.experiences),
-        education(&config.education),
-        projects(&config.projects),
+        experiences(&config.experiences, lang),
+        projects(&config.projects, lang),
+        education(&config.education, lang),
     )
 }
 
-fn experiences(experiences: &[Experience]) -> Element {
+fn experiences(
+    experiences: &[Experience],
+    lang: &str,
+) -> Element {
     section!(
         @class = "experience",
-        h2!("Expériences professionnelles"),
+        h2!(match lang {
+            "fr" => "Expériences professionnelles",
+            _ => "Professional Experiences",
+        }),
         ul!(
             experiences.iter().map(|experience| {
                 li!(
@@ -48,10 +57,16 @@ fn experiences(experiences: &[Experience]) -> Element {
     )
 }
 
-fn education(education: &[Education]) -> Element {
+fn education(
+    education: &[Education],
+    lang: &str,
+) -> Element {
     section!(
         @class = "education",
-        h2!("Formation"),
+        h2!(match lang {
+            "fr" => "Formation",
+            _ => "Education",
+        }),
         ul!(
             education.iter().map(|education| {
                 li!(
@@ -70,10 +85,16 @@ fn education(education: &[Education]) -> Element {
     )
 }
 
-fn projects(projects: &[Project]) -> Element {
+fn projects(
+    projects: &[Project],
+    lang: &str,
+) -> Element {
     section!(
         @class = "project",
-        h2!("Projets"),
+        h2!(match lang {
+            "fr" => "Projets",
+            _ => "Projects",
+        }),
         ul!(
             projects.iter().map(|project| {
                 li!(

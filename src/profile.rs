@@ -19,16 +19,19 @@ const GLOBE_SVG: &str = include_str!("../assets/icons/globe.svg");
 const BLUESKY_SVG: &str = include_str!("../assets/icons/bluesky.svg");
 const LINKEDIN_SVG: &str = include_str!("../assets/icons/linkedin.svg");
 
-pub fn profile(config: &Config) -> Element {
+pub fn profile(
+    config: &Config,
+    lang: &str,
+) -> Element {
     div!(
         @class = "profile",
         img!(@src = "/assets/images/profile.webp"),
         h1!(&config.name),
         contact(&config.address, &config.contact),
-        language(&config.languages),
-        soft_skills(&config.soft_skills),
-        hard_skills(&config.hard_skills),
-        interests(&config.interests),
+        language(&config.languages, lang),
+        soft_skills(&config.soft_skills, lang),
+        hard_skills(&config.hard_skills, lang),
+        interests(&config.interests, lang),
     )
 }
 
@@ -49,10 +52,16 @@ fn contact(
     )
 }
 
-fn language(languages: &[Language]) -> Element {
+fn language(
+    languages: &[Language],
+    lang: &str,
+) -> Element {
     section!(
         @class = "language",
-        h2!("Langues"),
+        h2!(match lang {
+            "fr" => "Langues",
+            _ => "Languages",
+        }),
         ul!(
             languages.iter().map(|language| {
                 li!(
@@ -64,10 +73,16 @@ fn language(languages: &[Language]) -> Element {
     )
 }
 
-fn soft_skills(soft_skills: &[SoftSkill]) -> Element {
+fn soft_skills(
+    soft_skills: &[SoftSkill],
+    lang: &str,
+) -> Element {
     section!(
         @class = "soft-skill",
-        h2!("Compétences Humaines"),
+        h2!(match lang {
+            "fr" => "Compétences Humaines",
+            _ => "Soft Skills",
+        }),
         ul!(
             soft_skills.iter().map(|skill| {
                 li!(&skill.name)
@@ -76,10 +91,16 @@ fn soft_skills(soft_skills: &[SoftSkill]) -> Element {
     )
 }
 
-fn hard_skills(hard_skills: &[HardSkill]) -> Element {
+fn hard_skills(
+    hard_skills: &[HardSkill],
+    lang: &str,
+) -> Element {
     section!(
         @class = "hard-skill",
-        h2!("Compétences"),
+        h2!(match lang {
+            "fr" => "Compétences",
+            _ => "Hard Skills",
+        }),
         ul!(
             hard_skills.iter().map(|skill| {
                 li!(
@@ -91,10 +112,16 @@ fn hard_skills(hard_skills: &[HardSkill]) -> Element {
     )
 }
 
-fn interests(interests: &[Interest]) -> Element {
+fn interests(
+    interests: &[Interest],
+    lang: &str,
+) -> Element {
     section!(
         @class = "interest",
-        h2!("Centres d'intérêt"),
+        h2!(match lang {
+            "fr" => "Centres d'intérêt",
+            _ => "Interests",
+        }),
         ul!(
             interests.iter().map(|interest| {
                 li!(

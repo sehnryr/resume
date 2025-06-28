@@ -142,7 +142,7 @@ fn main() {
                     title!("CV Youn Mélois"),
                     style!(MAIN_CSS, OPEN_SANS_CSS, PROFILE_CSS, RESUME_CSS)
                 ),
-                body!(main!(profile(&config), resume(&config),),),
+                body!(main!(profile(&config, lang), resume(&config, lang),),),
             )
             .to_string()
         );
