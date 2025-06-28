@@ -115,7 +115,7 @@ struct Project {
 }
 
 fn main() {
-    let default_lang = "fr";
+    let default_lang = "en";
     let resume_directory = PathBuf::from("resume");
 
     let resume_files = resume_directory
