@@ -30,16 +30,16 @@ name = "Rust"
 examples = ["CLI", "FFI", "WebAssembly"]
 
 [[hard-skills]]
-name = "Opérationnel"
-examples = ["Ansible", "Docker", "OpenStack"]
-
-[[hard-skills]]
 name = "C/C++"
 examples = ["IHM", "Qt"]
 
 [[hard-skills]]
+name = "SQL"
+examples = ["PostgreSQL", "SQLite"]
+
+[[hard-skills]]
 name = "Linux"
-examples = ["Arch", "Bash"]
+examples = ["NixOS", "Nushell"]
 
 [[interests]]
 name = "Informatique"
