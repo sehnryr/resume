@@ -33,8 +33,14 @@ fn experiences(experiences: &[Experience]) -> Element {
                     &experience.company,
                     span!(@class = "date", &experience.time ),
                     p!(&experience.title),
+                    experience.description.as_ref().map(|description| {
+                        p!(description)
+                    }),
                     experience.link.as_ref().map(|link_| {
                         div!(LINK_SVG, link(LinkType::Website, link_))
+                    }),
+                    (!experience.skills.is_empty()).then(|| {
+                        p!(i!(experience.skills.join(", ")))
                     })
                 )
             })

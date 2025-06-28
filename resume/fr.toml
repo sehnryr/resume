@@ -30,12 +30,12 @@ name = "Rust"
 examples = ["CLI", "FFI", "WebAssembly"]
 
 [[hard-skills]]
-name = "C/C++"
-examples = ["IHM", "Qt"]
-
-[[hard-skills]]
 name = "SQL"
 examples = ["PostgreSQL", "SQLite"]
+
+[[hard-skills]]
+name = "C/C++"
+examples = ["IHM", "Qt"]
 
 [[hard-skills]]
 name = "Linux"
@@ -61,7 +61,9 @@ examples = ["Bac à Sable", "Coop"]
 company = "Clever Cloud"
 time = "(oct. 2024 - aujourd'hui)"
 title = "Développeur logiciels en Alternance"
+description = "Création d'une API pour la gestion des utilisateurs (alias: rôles) des add-ons PostgreSQL. Contribution au projet KMS (Key Management System) et de l'outilage interne en Rust."
 link = "clever-cloud.com"
+skills = ["Scala", "PostgreSQL", "Ruby", "Rust"]
 
 [[experiences]]
 company = "Clever Cloud"
@@ -80,12 +82,6 @@ degree = "Ingénierie Logicielle"
 time = "(févr. 2024 - juil. 2024)"
 description = "Erasmus d'un semèstre à Zagreb en Croatie."
 link = "algebra.hr"
-
-[[projects]]
-title = "Lecteur de manga"
-description = "Création d'une application multiplateforme (mobile/desktop) permettant de visualiser des mangas/webtoons depuis des sources populaires."
-link = "github.com/midokuapp/midoku"
-skills = ["Rust", "WebAssembly", "Dioxus"]
 
 [[projects]]
 title = "Réécriture de Oodle en Rust"

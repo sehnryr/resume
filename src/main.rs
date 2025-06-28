@@ -88,7 +88,10 @@ struct Experience {
     company: String,
     time: String,
     title: String,
+    description: Option<String>,
     link: Option<String>,
+    #[serde(default, skip_serializing_if = "Vec::is_empty")]
+    skills: Vec<String>,
 }
 
 #[derive(Deserialize)]
