@@ -46,10 +46,13 @@
       in
       {
         devShells.default = pkgs.mkShell {
-          buildInputs = [
+          buildInputs = with pkgs; [
             # Rust toolchain
             stableToolchain
             nightlyFmt
+
+            # Lightweight HTTP server
+            miniserve
           ];
         };
       }

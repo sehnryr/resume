@@ -1,7 +1,7 @@
 name = "Youn Mélois"
 address = "Nantes, France"
 title = "Rust Software Engineer"
-subtitle = "Low-level Optimization & Performance"
+subtitle = "Low-level Performance Optimization"
 
 soft-skills = [
     { name = "Quick-witted" },
@@ -73,18 +73,11 @@ title = "Software Developer (Internship)"
 [[education]]
 school = "ISEN Yncréa Ouest"
 degree = "Engineering Degree, Software Engineering"
-time = "(Sep. 2020 - Oct. 2025)"
+time = "(Sep. 2020 - Sep. 2025)"
 link = "isen-nantes.fr"
 
-[[education]]
-school = "Sveučilište Algebra (Algebra University)"
-degree = "Software Engineering"
-time = "(Feb. 2024 - Jul. 2024)"
-description = "One-semester Erasmus in Zagreb, Croatia."
-link = "algebra.hr"
-
 [[projects]]
-title = "Rewriting Oodle in Rust"
+title = "Rewriting a Compression Algorithm in Rust"
 description = "Oodle is a data compression algorithm used in many video games. This rewrite allows Oodle to be used in Rust applications without linking with the original C library."
 link = "github.com/sehnryr/oodle-rs"
 skills = ["Rust", "FFI", "Bindgen"]
@@ -94,6 +87,12 @@ title = "Reverse Engineering Warframe's Cache"
 description = "Extraction of the game's binary compressed data from Warframe to retrieve images and music. Creation of a TUI application to explore and extract this data."
 link = "github.com/sehnryr/wfcache-api"
 skills = ["Rust", "C++", "TUI", "ImHex"]
+
+[[projects]]
+title = "CLI SSG for writing this resume"
+description = "A command-line interface static site generator for writing my resume. It reads a TOML file and generates a minified HTML+CSS file with optimizations for printing and accessibility."
+link = "github.com/sehnryr/resume"
+skills = ["Rust", "HTML", "CSS"]
 
 [[projects]]
 title = "Open-source Contributions"

@@ -1,7 +1,7 @@
 name = "Youn Mélois"
 address = "Nantes, France"
 title = "Ingénieur Logiciel Rust"
-subtitle = "Optimisation bas niveau & Performances"
+subtitle = "Optimisation de performances bas niveau"
 
 soft-skills = [
     { name = "Vif d'esprit" },
@@ -73,18 +73,11 @@ title = "Développeur logiciels en Stage"
 [[education]]
 school = "ISEN Yncréa Ouest"
 degree = "Diplôme d'ingénieur, Ingénierie Logicielle"
-time = "(sept. 2020 - oct. 2025)"
+time = "(sept. 2020 - sept. 2025)"
 link = "isen-nantes.fr"
 
-[[education]]
-school = "Sveučilište Algebra (Algebra University)"
-degree = "Ingénierie Logicielle"
-time = "(févr. 2024 - juil. 2024)"
-description = "Erasmus d'un semèstre à Zagreb en Croatie."
-link = "algebra.hr"
-
 [[projects]]
-title = "Réécriture de Oodle en Rust"
+title = "Réécriture d'un algorithme de compression en Rust"
 description = "Oodle est un algorithme de compression de données utilisé dans de nombreux jeux vidéo. Cette réécriture permet d'utiliser Oodle dans des applications Rust sans avoir à faire du linkage avec la bibliothèque C originale."
 link = "github.com/sehnryr/oodle-rs"
 skills = ["Rust", "FFI", "Bindgen"]
@@ -94,6 +87,12 @@ title = "Rétro-ingénierie du cache de Warframe"
 description = "Extraction des données compressées binaires du jeu Warframe pour en récupérer les images et musiques. Création d'une application TUI pour explorer et extraire ces données."
 link = "github.com/sehnryr/wfcache-api"
 skills = ["Rust", "C++", "TUI", "ImHex"]
+
+[[projects]]
+title = "SSG en CLI pour rédiger ce CV"
+description = "Générateur de site statique en ligne de commande pour la rédaction de ce CV. Il lit un fichier TOML et génère un fichier HTML+CSS minifié, optimisé pour l'impression et l'accessibilité."
+link = "github.com/sehnryr/resume"
+skills = ["Rust", "HTML", "CSS"]
 
 [[projects]]
 title = "Contributions Open-source"

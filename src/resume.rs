@@ -92,8 +92,8 @@ fn projects(
     section!(
         @class = "project",
         h2!(match lang {
-            "fr" => "Projets",
-            _ => "Projects",
+            "fr" => "Projets Personnels",
+            _ => "Personal Projects",
         }),
         ul!(
             projects.iter().map(|project| {
