@@ -51,11 +51,11 @@ examples = ["Vélo"]
 
 [[interests]]
 name = "Lecture"
-examples = ["Comic", "Webtoon"]
+examples = ["Manga", "Manhwa"]
 
 [[interests]]
 name = "Jeux vidéo"
-examples = ["Bac à Sable", "Coop"]
+examples = ["Minecraft", "Warframe"]
 
 [[experiences]]
 company = "Clever Cloud"
