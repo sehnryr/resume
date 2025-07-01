@@ -59,16 +59,11 @@ examples = ["Minecraft", "Warframe"]
 
 [[experiences]]
 company = "Clever Cloud"
-time = "(Oct. 2024 - Present)"
-title = "Software Developer (Apprenticeship)"
-description = "Created an API for PostgreSQL add-ons user management (aka: roles). Contribution to the KMS (Key Management System) project and internal tooling in Rust."
+time = "(Jul. 2024 - Present)"
+title = "Software Developer (Internship then Apprenticeship)"
+description = "Delivered a PostgreSQL user-management feature (roles), developed the API, and integrated it into the clever-tools CLI. Performed a state-of-the-art review, produced specifications, and built a proof of concept to validate the solution. Optimized and integrated the CI/CD pipeline. Contributed to the KMS (Key Management System) project."
 link = "clever-cloud.com"
-skills = ["Scala", "PostgreSQL", "Ruby", "Rust"]
-
-[[experiences]]
-company = "Clever Cloud"
-time = "(Jul. 2024 - Sep. 2024)"
-title = "Software Developer (Internship)"
+skills = ["Scala", "PostgreSQL", "Ruby", "Rust", "CI/CD", "CLI"]
 
 [[education]]
 school = "ISEN Yncréa Ouest"
