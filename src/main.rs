@@ -148,14 +148,15 @@ fn main() {
             .to_string()
         );
 
-        let mut cfg = Cfg::default();
-
-        cfg.allow_optimal_entities = true;
-        cfg.allow_removing_spaces_between_attributes = true;
-        cfg.minify_doctype = true;
-        cfg.minify_css = true;
-        cfg.remove_bangs = true;
-        cfg.remove_processing_instructions = true;
+        let cfg = Cfg {
+            allow_optimal_entities: true,
+            allow_removing_spaces_between_attributes: true,
+            minify_doctype: true,
+            minify_css: true,
+            remove_bangs: true,
+            remove_processing_instructions: true,
+            ..Default::default()
+        };
 
         let minified = minify(html.as_bytes(), &cfg);
 
