@@ -1,6 +1,13 @@
+# IDE
+.idea/
+.vscode/
 .zed/
-/target
-Cargo.lock
-.direnv
+
+# Direnv
+.direnv/
 .env
 .envrc.local
+
+# Rust
+target/
+Cargo.lock
