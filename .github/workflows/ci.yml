@@ -1,0 +1,96 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - "src/**"
+      - "assets/**"
+      - "resume/**"
+      - "Cargo.toml"
+      - ".github/workflows/ci.yml"
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  test-and-clippy:
+    name: Tests & Clippy (stable)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+
+      - uses: dtolnay/rust-toolchain@stable
+        with:
+          components: clippy
+
+      - uses: Swatinem/rust-cache@v2
+
+      - name: Test
+        run: cargo test
+
+      - name: Clippy
+        run: cargo clippy
+
+  rustfmt:
+    name: Rustfmt (nightly)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+
+      - uses: dtolnay/rust-toolchain@nightly
+        with:
+          components: rustfmt
+
+      - uses: Swatinem/rust-cache@v2
+
+      - name: rustfmt --check
+        run: cargo fmt --all --check
+
+  build-and-publish:
+    name: Build & Deploy
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    needs:
+      - test-and-clippy
+      - rustfmt
+    if: github.event_name == 'workflow_dispatch' || (github.event_name == 'push' && github.ref == 'refs/heads/main')
+    steps:
+      - uses: actions/checkout@v5
+        with:
+          fetch-depth: 0
+
+      - uses: dtolnay/rust-toolchain@stable
+        with:
+          toolchain: stable
+
+      - uses: Swatinem/rust-cache@v2
+
+      - name: Build
+        run: cargo build --release
+
+      - name: Generate HTML
+        run: cargo run --release
+
+      - name: Prepare publish directory
+        run: |
+          set -euo pipefail
+          rm -rf public
+          mkdir -p public public/assets
+          cp index.html public/
+          cp -r en public/en
+          cp -r fr public/fr
+          cp -r assets/fonts public/assets/fonts
+          cp -r assets/images public/assets/images
+
+      - name: Deploy to gh-pages
+        uses: peaceiris/actions-gh-pages@v4
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_branch: gh-pages
+          publish_dir: ./public
+          cname: cv.melois.dev
+          force_orphan: true
+          user_name: github-actions[bot]
+          user_email: 41898282+github-actions[bot]@users.noreply.github.com
+          commit_message: "chore: publish resume"
