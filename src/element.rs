@@ -1,3 +1,5 @@
+use core::fmt;
+
 pub enum Element {
     Text(String),
     Children(Vec<Element>),
@@ -14,31 +16,34 @@ impl Element {
     }
 }
 
-impl ToString for Element {
-    fn to_string(&self) -> String {
+impl fmt::Display for Element {
+    fn fmt(
+        &self,
+        f: &mut fmt::Formatter<'_>,
+    ) -> fmt::Result {
         match self {
-            Element::Text(text) => text.clone(),
-            Element::Children(elements) => elements
-                .iter()
-                .map(Element::to_string)
-                .collect::<Vec<String>>()
-                .join(""),
+            Element::Text(text) => write!(f, "{}", text),
+            Element::Children(elements) => {
+                for element in elements {
+                    write!(f, "{}", element)?;
+                }
+                Ok(())
+            }
             Element::Tag(name, attributes, children) => {
-                format!(
-                    "<{}{}>{}</{}>",
+                write!(
+                    f,
+                    "<{}{}>",
                     name,
                     attributes
                         .iter()
                         .map(|(k, v)| format!(" {}=\"{}\"", k, v))
                         .collect::<Vec<String>>()
-                        .join(""),
-                    children
-                        .iter()
-                        .map(Element::to_string)
-                        .collect::<Vec<String>>()
-                        .join(""),
-                    name
-                )
+                        .join("")
+                )?;
+                for element in children {
+                    write!(f, "{}", element)?;
+                }
+                write!(f, "</{}>", name)
             }
         }
     }

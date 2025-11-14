@@ -145,7 +145,6 @@ fn main() {
                 ),
                 body!(main!(profile(&config, lang), resume(&config, lang),),),
             )
-            .to_string()
         );
 
         let cfg = Cfg {
