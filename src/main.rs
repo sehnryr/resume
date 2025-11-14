@@ -138,6 +138,7 @@ fn main() {
         let html = format!(
             "<!doctype html>{}",
             html!(
+                @lang = lang,
                 head!(
                     title!("CV Youn Mélois"),
                     style!(MAIN_CSS, OPEN_SANS_CSS, PROFILE_CSS, RESUME_CSS)

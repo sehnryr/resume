@@ -25,7 +25,13 @@ pub fn profile(
 ) -> Element {
     div!(
         @class = "profile",
-        img!(@src = "/assets/images/profile.webp"),
+        img!(
+            @src = "/assets/images/profile.webp",
+            @alt = match lang {
+                "fr" => "Photo de profil",
+                _ => "Profile picture",
+            },
+        ),
         h1!(&config.name),
         contact(&config.address, &config.contact),
         language(&config.languages, lang),
