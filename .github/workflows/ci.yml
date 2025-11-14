@@ -13,8 +13,21 @@ on:
   workflow_dispatch:
 
 jobs:
-  test-and-clippy:
-    name: Tests & Clippy (stable)
+  test:
+    name: Tests (stable)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+
+      - uses: dtolnay/rust-toolchain@stable
+
+      - uses: Swatinem/rust-cache@v2
+
+      - name: cargo test
+        run: cargo test
+
+  clippy:
+    name: Clippy (stable)
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v5
@@ -25,11 +38,8 @@ jobs:
 
       - uses: Swatinem/rust-cache@v2
 
-      - name: Test
-        run: cargo test
-
-      - name: Clippy
-        run: cargo clippy
+      - name: cargo clippy
+        run: cargo clippy -- -D warnings
 
   rustfmt:
     name: Rustfmt (nightly)
@@ -52,7 +62,8 @@ jobs:
     permissions:
       contents: write
     needs:
-      - test-and-clippy
+      - test
+      - clippy
       - rustfmt
     if: github.event_name == 'workflow_dispatch' || (github.event_name == 'push' && github.ref == 'refs/heads/main')
     steps:
