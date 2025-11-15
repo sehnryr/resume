@@ -140,8 +140,15 @@ fn main() {
             html!(
                 @lang = lang,
                 head!(
-                    title!("CV Youn Mélois"),
-                    style!(MAIN_CSS, OPEN_SANS_CSS, PROFILE_CSS, RESUME_CSS)
+                    title!(format!("CV {}", config.name)),
+                    style!(MAIN_CSS, OPEN_SANS_CSS, PROFILE_CSS, RESUME_CSS),
+                    meta!(
+                        @name = "description",
+                        @content = match lang {
+                            "fr" => format!("CV de {} pour {}", config.name, config.title),
+                            _ => format!("Resume of {} for {}", config.name, config.title),
+                        },
+                    ),
                 ),
                 body!(main!(profile(&config, lang), resume(&config, lang),),),
             )

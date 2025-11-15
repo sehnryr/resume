@@ -130,7 +130,7 @@ macro_rules! elements {
 }
 
 elements!(
-    html, head, title, style, body, div, main, section, h1, h2, ul, li, p, span, img, a, i
+    html, meta, head, title, style, body, div, main, section, h1, h2, ul, li, p, span, img, a, i
 );
 
 #[cfg(test)]
