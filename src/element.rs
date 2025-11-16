@@ -74,29 +74,29 @@ impl<T: ToElement> ToElementOption for Option<T> {
 }
 
 macro element {
-    ($tag:ident) => {
-        crate::element::Element::new(
+    ($tag:ident,) => {
+        Element::new(
             stringify!($tag),
             vec![],
             vec![],
         )
     },
-    ($tag:ident $(,@ $key:pat = $value:expr)+ $(,)?) => {
-        crate::element::Element::new(
+    ($tag:ident, $(@ $key:pat = $value:expr),+ $(,)?) => {
+        Element::new(
             stringify!($tag),
             vec![$((stringify!($key).to_string(), $value.to_string())),+],
             vec![],
         )
     },
-    ($tag:ident $(,$children:expr)+ $(,)?) => {
-        crate::element::Element::new(
+    ($tag:ident, $($children:expr),+ $(,)?) => {
+        Element::new(
             stringify!($tag),
             vec![],
             vec![$($children.to_element()),+],
         )
     },
-    ($tag:ident $(,@ $key:pat = $value:expr)+ $(,$children:expr)+ $(,)?) => {
-        crate::element::Element::new(
+    ($tag:ident, $(@ $key:pat = $value:expr),+ $(,$children:expr)+ $(,)?) => {
+        Element::new(
             stringify!($tag),
             vec![$((stringify!($key).to_string(), $value.to_string())),+],
             vec![$($children.to_element()),+],
@@ -105,31 +105,18 @@ macro element {
 }
 
 macro elements {
-    (($d:tt) $($tag:ident),+) => {
-        $(
-            pub(crate) macro $tag {
-                () => {
-                    element!($tag)
-                },
-                ($d(@ $key:pat = $value:expr),+ $d(,)?) => {
-                    element!($tag $d(,@ $key = $value)+)
-                },
-                ($d($children:expr),+ $d(,)?) => {
-                    element!($tag $d(,$children)+)
-                },
-                ($d(@ $key:pat = $value:expr),+ $d(,$children:expr)+ $d(,)?) => {
-                    element!($tag $d(,@ $key = $value)+ $d(,$children)+)
-                },
-            }
-        )+
+    ($($tag:ident)+) => {
+        $( elements!(@impl $tag, $); )+
     },
-    ($($tag:ident),+) => {
-        elements!{($) $($tag),+}
+    (@impl $tag:ident, $d:tt) => {
+        pub(crate) macro $tag($d($args:tt)*) {
+            element!($tag, $d($args)*)
+        }
     },
 }
 
 elements!(
-    html, meta, head, title, style, body, div, main, section, h1, h2, ul, li, p, span, img, a, i
+    html meta head title style body div main section h1 h2 ul li p span img a i
 );
 
 #[cfg(test)]
