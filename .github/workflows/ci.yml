@@ -14,12 +14,12 @@ on:
 
 jobs:
   test:
-    name: Tests (stable)
+    name: Tests (nightly)
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v5
 
-      - uses: dtolnay/rust-toolchain@stable
+      - uses: dtolnay/rust-toolchain@nightly
 
       - uses: Swatinem/rust-cache@v2
 
@@ -27,12 +27,12 @@ jobs:
         run: cargo test
 
   clippy:
-    name: Clippy (stable)
+    name: Clippy (nightly)
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v5
 
-      - uses: dtolnay/rust-toolchain@stable
+      - uses: dtolnay/rust-toolchain@nightly
         with:
           components: clippy
 
@@ -71,9 +71,9 @@ jobs:
         with:
           fetch-depth: 0
 
-      - uses: dtolnay/rust-toolchain@stable
+      - uses: dtolnay/rust-toolchain@nightly
         with:
-          toolchain: stable
+          toolchain: nightly
 
       - uses: Swatinem/rust-cache@v2
 

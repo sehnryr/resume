@@ -44,12 +44,12 @@
             pkgs.rust-analyzer
 
             # Rust components
-            pkgs.fenix.stable.rustc
-            pkgs.fenix.stable.cargo
-            pkgs.fenix.stable.rust-std
-            pkgs.fenix.stable.clippy
-            pkgs.fenix.stable.rust-src
-            pkgs.fenix.stable.rust-docs
+            pkgs.fenix.latest.rustc
+            pkgs.fenix.latest.cargo
+            pkgs.fenix.latest.rust-std
+            pkgs.fenix.latest.clippy
+            pkgs.fenix.latest.rust-src
+            pkgs.fenix.latest.rust-docs
             pkgs.fenix.latest.rustfmt
 
             # Web server for development

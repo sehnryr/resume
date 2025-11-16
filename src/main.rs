@@ -1,4 +1,5 @@
-#[macro_use]
+#![feature(decl_macro)]
+
 mod element;
 mod link;
 mod profile;

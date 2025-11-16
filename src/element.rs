@@ -73,60 +73,59 @@ impl<T: ToElement> ToElementOption for Option<T> {
     fn to_element(self) -> Element { ToElementArray::to_element(self.into_iter()) }
 }
 
-macro_rules! element {
+macro element {
     ($tag:ident) => {
         crate::element::Element::new(
             stringify!($tag),
             vec![],
             vec![],
         )
-    };
+    },
     ($tag:ident $(,@ $key:pat = $value:expr)+ $(,)?) => {
         crate::element::Element::new(
             stringify!($tag),
             vec![$((stringify!($key).to_string(), $value.to_string())),+],
             vec![],
         )
-    };
+    },
     ($tag:ident $(,$children:expr)+ $(,)?) => {
         crate::element::Element::new(
             stringify!($tag),
             vec![],
             vec![$($children.to_element()),+],
         )
-    };
+    },
     ($tag:ident $(,@ $key:pat = $value:expr)+ $(,$children:expr)+ $(,)?) => {
         crate::element::Element::new(
             stringify!($tag),
             vec![$((stringify!($key).to_string(), $value.to_string())),+],
             vec![$($children.to_element()),+],
         )
-    };
+    },
 }
 
-macro_rules! elements {
+macro elements {
     (($d:tt) $($tag:ident),+) => {
         $(
-            macro_rules! $tag {
+            pub(crate) macro $tag {
                 () => {
                     element!($tag)
-                };
+                },
                 ($d(@ $key:pat = $value:expr),+ $d(,)?) => {
                     element!($tag $d(,@ $key = $value)+)
-                };
+                },
                 ($d($children:expr),+ $d(,)?) => {
                     element!($tag $d(,$children)+)
-                };
+                },
                 ($d(@ $key:pat = $value:expr),+ $d(,$children:expr)+ $d(,)?) => {
                     element!($tag $d(,@ $key = $value)+ $d(,$children)+)
-                };
+                },
             }
-            pub(crate) use $tag;
         )+
-    };
+    },
     ($($tag:ident),+) => {
         elements!{($) $($tag),+}
-    };
+    },
 }
 
 elements!(
